@@ -98,11 +98,12 @@ function createDefaultState() {
     }
   };
 }
-function loadState() {
+async function loadState() {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const storage = window.taskAidStorage || { get: (k) => JSON.parse(localStorage.getItem(k)) };
+    const stored = await storage.get(STORAGE_KEY);
     if (!stored) return createDefaultState();
-    const parsed = JSON.parse(stored);
+    const parsed = stored;
     const defaults = createDefaultState();
     return {
       ...defaults,
@@ -135,7 +136,8 @@ function loadState() {
 }
 function saveState() {
   const persistable = { ...state, timer: { ...state.timer, lastTick: null } };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable));
+  const storage = window.taskAidStorage || { set: (k, v) => localStorage.setItem(k, JSON.stringify(v)) };
+  storage.set(STORAGE_KEY, persistable);
 }
 function formatDateISO(date) {
   const d = new Date(date);
@@ -211,6 +213,7 @@ function tickTimer() {
     clearInterval(timerInterval);
     timerInterval = undefined;
     showToast("Great job! Timer completed.");
+    if (window.notifyTimerCompleted) window.notifyTimerCompleted();
   }
   saveState();
   updateTimerDisplay();
@@ -354,12 +357,20 @@ function renderAll() {
   renderTasksTable();
   updateTimerDisplay();
 }
-function showToast(message) {
+async function showToast(message) {
   els.toast.textContent = message;
   els.toast.classList.add("visible");
   setTimeout(() => {
     els.toast.classList.remove("visible");
   }, 3200);
+  
+  // Also show desktop notification if in Electron
+  if (window.taskAidIsElectron && window.taskAidNotifications) {
+    await window.taskAidNotifications.show({
+      title: 'Desktop Task Aid',
+      body: message
+    });
+  }
 }
 function openModal(task) {
   els.modal.classList.remove("hidden");
@@ -461,8 +472,8 @@ function handlePageChange(direction) {
   renderTasksTable();
   saveState();
 }
-function initialize() {
-  state = loadState();
+async function initialize() {
+  state = await loadState();
   els.body.setAttribute("data-theme", state.settings.theme);
   els.body.classList.toggle("helper-active", state.settings.helper);
   els.rowsPerPage.value = String(state.pagination.pageSize);
@@ -493,5 +504,14 @@ function initialize() {
   els.modal.addEventListener("click", event => {
     if (event.target === els.modal) closeModal();
   });
+  
+  // Setup Electron IPC event listeners
+  if (window.taskAidIsElectron) {
+    window.addEventListener('electron-quick-add', () => openModal());
+    window.addEventListener('electron-timer-start', () => startTimer());
+    window.addEventListener('electron-timer-pause', () => pauseTimer());
+    window.addEventListener('electron-timer-toggle', () => toggleTimer());
+    window.addEventListener('electron-timer-reset', () => resetTimer());
+  }
 }
 document.addEventListener("DOMContentLoaded", initialize);
