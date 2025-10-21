@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desktop Task Aid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Mulish:wght@400;500;600;700&family=Mona+Sans:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-bar">
+      <span class="top-bar__title">Desktop Task Aid</span>
+      <div class="window-actions" role="group" aria-label="Window controls">
+        <button class="window-button" aria-label="Minimize window"><span class="icon icon-minimize"></span></button>
+        <button class="window-button" aria-label="Maximize window"><span class="icon icon-maximize"></span></button>
+        <button class="window-button" aria-label="Close window"><span class="icon icon-close"></span></button>
+      </div>
+    </header>
+
+    <aside class="floating-controls">
+      <button class="floating-button" id="theme-toggle" aria-label="Toggle theme">
+        <span class="icon icon-moon"></span>
+      </button>
+      <button class="floating-button" id="helper-toggle" aria-label="Toggle helper overlay">
+        <span class="icon icon-highlight"></span>
+      </button>
+    </aside>
+
+    <main class="content-area">
+      <section class="hero-grid">
+        <div class="welcome-card">
+          <div class="welcome-text">
+            <h1>Welcome back!</h1>
+            <p>Organize your tasks, keep your mind clean and boost your <span class="highlight">productivity</span>!</p>
+          </div>
+          <div class="welcome-illustration" aria-hidden="true">
+            <img src="https://www.figma.com/api/mcp/asset/31dacddb-1e63-4ab8-b149-9f0006472852" alt="Checklist illustration" />
+          </div>
+        </div>
+        <div class="snapshot-grid">
+          <article class="card upcoming-card" aria-labelledby="upcoming-title">
+            <div class="upcoming-card__inner">
+              <div class="upcoming-info" id="upcoming-info">
+                <h2 id="upcoming-title">Upcoming task name</h2>
+                <p id="upcoming-detail"></p>
+              </div>
+              <div class="timer-panel">
+                <div class="timer-copy">
+                  <button id="timer-toggle" class="timer-toggle" type="button">Start Timer</button>
+                  <span class="timer-progress" id="timer-progress-label">0:00:00 Done Today</span>
+                  <div class="timer-display" id="timer-display">25:00</div>
+                </div>
+                <div class="timer-controls">
+                  <button class="timer-circle" id="timer-play" aria-label="Start or pause timer"><span class="icon icon-play"></span></button>
+                  <button class="timer-circle" id="timer-reset" aria-label="Reset timer"><span class="icon icon-restart"></span></button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card calendar-card" aria-labelledby="calendar-title">
+            <div class="calendar-layout">
+              <div class="calendar-panel">
+                <div class="calendar-header">
+                  <h2 id="calendar-title">October 2025</h2>
+                  <div class="calendar-nav">
+                    <button class="nav-pill" id="prev-month" aria-label="Go to previous month">
+                      <span class="icon icon-chevron"></span>
+                    </button>
+                    <button class="nav-pill" id="next-month" aria-label="Go to next month">
+                      <span class="icon icon-chevron"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="calendar-grid" role="grid" aria-labelledby="calendar-title">
+                  <div class="calendar-weekdays">
+                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                  </div>
+                  <div class="calendar-days" id="calendar-days" role="rowgroup"></div>
+                </div>
+              </div>
+              <div class="day-summary">
+                <div class="day-summary__header">
+                  <h3 id="selected-date-label">Wednesday, Oct 16</h3>
+                  <span id="selected-date-count">3 Tasks planned</span>
+                </div>
+                <ol class="day-summary__list" id="daily-task-list"></ol>
+                <div class="calendar-footer"><span>Already using another calendar?</span><button id="sync-calendar" type="button">Sync now</button></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="tasks-section">
+        <header class="tasks-header">
+          <div>
+            <h2>Tasks List</h2>
+            <p>All Tasks</p>
+          </div>
+          <div class="tasks-header__actions">
+            <div class="search-field">
+              <span class="icon icon-search" aria-hidden="true"></span>
+              <input type="search" id="task-search" placeholder="Search tasks" aria-label="Search tasks" />
+            </div>
+            <button class="icon-button" id="filter-button" type="button" aria-label="Open filters"><span class="icon icon-filter"></span></button>
+            <button class="primary-button" id="add-task" type="button">Add Task</button>
+          </div>
+        </header>
+
+        <div class="table-card">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Task name</th>
+                  <th>Due date</th>
+                  <th>Due time</th>
+                  <th>Reminders</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="task-table-body"></tbody>
+            </table>
+          </div>
+          <footer class="table-footer">
+            <span id="pagination-summary">0 - 0 of 0</span>
+            <div class="footer-controls">
+              <label for="rows-per-page">Rows per page:</label>
+              <select id="rows-per-page" aria-label="Rows per page">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+              </select>
+              <button class="nav-pill" id="prev-page" aria-label="Previous page"><span class="icon icon-chevron"></span></button>
+              <button class="nav-pill" id="next-page" aria-label="Next page"><span class="icon icon-chevron"></span></button>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="task-modal" role="dialog" aria-modal="true" aria-labelledby="task-modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="task-modal-title">Add Task</h2>
+        <button class="icon-button" id="close-modal" aria-label="Close form"><span class="icon icon-close"></span></button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" id="task-id" />
+        <div class="form-field">
+          <label for="task-name">Task name</label>
+          <input id="task-name" name="task-name" type="text" required />
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="task-date">Due date</label>
+            <input id="task-date" name="task-date" type="date" required />
+          </div>
+          <div class="form-field">
+            <label for="task-time">Due time</label>
+            <input id="task-time" name="task-time" type="time" required />
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="reminder-status">Reminder status</label>
+            <select id="reminder-status" name="reminder-status" required>
+              <option value="active">Active</option>
+              <option value="overdue">Overdue</option>
+              <option value="none">Not set</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="reminder-label">Reminder label</label>
+            <input id="reminder-label" name="reminder-label" type="text" placeholder="e.g., Monday Jan 14 - 9:00" />
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-button" type="button" id="cancel-modal">Cancel</button>
+          <button class="primary-button" type="submit">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>

@@ -38,7 +38,7 @@
 - ✅ Search/filter tasks
 - ✅ Pagination (10/25/50 rows per page)
 - ✅ Color-coded reminder tags:
-  - Green: Active/upcoming
+  - Green: Active/upcoming 
   - Red: Overdue
   - Yellow: Not set
 
