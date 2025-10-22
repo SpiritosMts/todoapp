@@ -321,10 +321,6 @@ img {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-[data-theme="dark"] .welcome-illustration img {
-  filter: invert(1) brightness(1.2);
-}
-
 .snapshot-grid {
   display: grid;
   gap: 35px;
@@ -355,14 +351,14 @@ img {
 
 .upcoming-info h2 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 500;
   color: var(--text-primary);
 }
 
 .upcoming-info p {
-  margin: 6px 0 0;
-  font-size: 14px;
+  margin: 4px 0 0;
+  font-size: 12px;
   color: var(--text-secondary);
 }
 
@@ -376,20 +372,15 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: 8px;
   color: var(--text-primary);
 }
 
 .timer-toggle {
   background: none;
   color: var(--text-primary);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-}
-
-.timer-progress {
-  font-size: 12px;
-  color: var(--text-secondary);
 }
 
 .timer-display {
@@ -441,15 +432,15 @@ img {
 
 .calendar-layout {
   display: grid;
-  grid-template-columns: 210px 1fr;
-  gap: 40px;
-  align-items: center;
+  grid-template-columns: 240px 1fr;
+  gap: 50px;
+  align-items: start;
 }
 
 .calendar-panel {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 28px;
 }
 
 .calendar-header {
@@ -559,18 +550,19 @@ img {
 .day-summary {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 .day-summary__header h3 {
-  margin: 0;
-  font-size: 18px;
+  margin: 0 0 4px;
+  font-size: 20px;
   font-weight: 600;
 }
 
 .day-summary__header span {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
+  display: block;
 }
 
 .day-summary__list {
@@ -764,18 +756,19 @@ table {
 }
 
 thead {
-  background: rgba(168, 85, 247, 0.03);
+  background: transparent;
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 11px;
-  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 thead th {
-  padding: 18px 16px;
+  padding: 20px 24px;
   text-align: left;
   font-weight: 500;
+  border-bottom: 1px solid var(--divider);
 }
 
 tbody tr {
@@ -784,11 +777,11 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background: rgba(168, 85, 247, 0.08);
+  background: rgba(168, 85, 247, 0.03);
 }
 
 td {
-  padding: 18px 16px;
+  padding: 20px 24px;
   font-size: 14px;
   color: var(--text-primary);
 }
@@ -851,23 +844,24 @@ td {
 .icon-edit {
   width: 16px;
   height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m3 11.5-.5 2.5 2.5-.5 8-8-2-2-8 8Z' stroke='%23151b26' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='m11 3 2 2' stroke='%23151b26' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m3 11.5-.5 2.5 2.5-.5 8-8-2-2-8 8Z' stroke='%23c757ff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='m11 3 2 2' stroke='%23c757ff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 .icon-delete {
   width: 16px;
   height: 16px;
-  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 4h8m-.667 0-.5 9.333a1 1 0 0 1-1 .934H6.167a1 1 0 0 1-1-.934L4.667 4m6 0V3.333A1.333 1.333 0 0 0 9.333 2h-2.666A1.333 1.333 0 0 0 5.333 3.333V4' stroke='%23151b26' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M6.667 7.333 7 11.333m2-4L9 11.333' stroke='%23151b26' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 4h8m-.667 0-.5 9.333a1 1 0 0 1-1 .934H6.167a1 1 0 0 1-1-.934L4.667 4m6 0V3.333A1.333 1.333 0 0 0 9.333 2h-2.666A1.333 1.333 0 0 0 5.333 3.333V4' stroke='%23c757ff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M6.667 7.333 7 11.333m2-4L9 11.333' stroke='%23c757ff' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .table-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 16px 24px;
   gap: 24px;
   font-size: 12px;
   color: var(--text-secondary);
+  border-top: 1px solid var(--divider);
 }
 
 #pagination-summary {

@@ -170,6 +170,13 @@ function formatTimerDisplay(seconds) {
 function setTheme(theme) {
   state.settings.theme = theme;
   els.body.setAttribute("data-theme", theme);
+  
+  // Switch illustration based on theme
+  const heroIllustration = document.getElementById("hero-illustration");
+  if (heroIllustration) {
+    heroIllustration.src = theme === "dark" ? "../assets/dark-img.png" : "../assets/light-img.png";
+  }
+  
   saveState();
 }
 function toggleTheme() {
@@ -193,7 +200,6 @@ function refreshTimerDay() {
 function updateTimerDisplay() {
   refreshTimerDay();
   els.timerDisplay.textContent = formatTimerDisplay(state.timer.remaining);
-  els.timerProgress.textContent = `${formatDurationHMS(state.timer.doneTodaySeconds)} Done Today`;
   const running = state.timer.running;
   els.timerToggle.textContent = running ? "Pause Timer" : "Start Timer";
   els.timerPlay.classList.toggle("paused", running);
@@ -257,8 +263,8 @@ function renderUpcomingTask() {
   let upcoming = tasks.find(task => new Date(`${task.dueDate}T${task.dueTime || "23:59"}`) >= now);
   if (!upcoming && tasks.length) upcoming = tasks[0];
   if (!upcoming) {
-    els.upcomingTitle.textContent = "No tasks yet";
-    els.upcomingDetail.textContent = "Plan something amazing today.";
+    els.upcomingTitle.textContent = "Upcoming task name";
+    els.upcomingDetail.textContent = "1:30:00 Done Today";
     return;
   }
   els.upcomingTitle.textContent = upcoming.name;
@@ -477,6 +483,13 @@ async function initialize() {
   els.body.setAttribute("data-theme", state.settings.theme);
   els.body.classList.toggle("helper-active", state.settings.helper);
   els.rowsPerPage.value = String(state.pagination.pageSize);
+  
+  // Set correct illustration for initial theme
+  const heroIllustration = document.getElementById("hero-illustration");
+  if (heroIllustration) {
+    heroIllustration.src = state.settings.theme === "dark" ? "../assets/dark-img.png" : "../assets/light-img.png";
+  }
+  
   if (state.timer.running) {
     timerInterval = setInterval(tickTimer, 1000);
     state.timer.lastTick = Date.now();
